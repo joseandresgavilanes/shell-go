@@ -18,6 +18,6 @@ func main() {
 	command = strings.TrimSuffix(command, "\n")
 	fmt.Printf("%s: command not found\n", strings.TrimRight(command, "\n"))
 	
-	os.Exit(1)
+	os.Exit(0)
 }
 }
