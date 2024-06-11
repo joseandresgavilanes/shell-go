@@ -16,6 +16,8 @@ func main() {
 	
 	command, _ := reader.ReadString('\n')
 	command = strings.TrimSuffix(command, "\n")
-fmt.Printf("%s: command not found\n", strings.TrimRight(command, "\n"))
+	fmt.Printf("%s: command not found\n", strings.TrimRight(command, "\n"))
+	
+	os.Exit(1)
 }
 }
