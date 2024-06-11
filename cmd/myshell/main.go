@@ -21,7 +21,7 @@ func main() {
 			os.Exit(0)
 
 		case "echo":
-			fmt.Printf("%s\n", cmd)
+			fmt.Println(cmd[5:])
 		}
 	}
 }
