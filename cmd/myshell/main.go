@@ -8,19 +8,19 @@ import (
 )
 
 func main() {
-
-	reader := bufio.NewReader(os.Stdin)
-
+	for {
 		fmt.Fprint(os.Stdout, "$ ")
-	
-	command, _ := reader.ReadString('\n')
-	command = strings.TrimSuffix(command, "\n")
-	fmt.Printf("%s: command not found\n", strings.TrimRight(command, "\n"))
-	
-	cmd := strings.TrimSpace(command);
-
-	if cmd == "exit 0" {
-		
-		os.Exit(0)
+		cmd, err := bufio.NewReader(os.Stdin).ReadString('\n')
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		cmd = strings.TrimSpace(cmd)
+		switch cmd {
+		case "exit 0":
+			os.Exit(0)
+		default:
+			fmt.Printf("%s: command not found\n", cmd)
+		}
 	}
 }
