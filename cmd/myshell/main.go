@@ -10,7 +10,6 @@ import (
 func main() {
 
 	reader := bufio.NewReader(os.Stdin)
-	for{
 
 		fmt.Fprint(os.Stdout, "$ ")
 	
@@ -19,5 +18,4 @@ func main() {
 	fmt.Printf("%s: command not found\n", strings.TrimRight(command, "\n"))
 	
 	os.Exit(0)
-}
 }
