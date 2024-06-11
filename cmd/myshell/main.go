@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
+	fmt.Fprint(os.Stdout, "$ ")
 	for {
-		fmt.Fprint(os.Stdout, "$ ")
 		cmd, err := bufio.NewReader(os.Stdin).ReadString('\n')
 		if err != nil {
 			fmt.Println(err)
