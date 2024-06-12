@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -68,7 +69,17 @@ func main() {
 				}
 			}
 		default:
-			fmt.Fprintf(os.Stdout, "%s: command not found\n", message)
+			// If not a builtin command, attempt to execute it as an external command
+			if path, found := findExecutable(commands[0]); found {
+				cmd := exec.Command(path, commands[1:]...)
+				cmd.Stdout = os.Stdout
+				cmd.Stderr = os.Stderr
+				if err := cmd.Run(); err != nil {
+					fmt.Fprintf(os.Stderr, "%s: %v\n", commands[0], err)
+				}
+			} else {
+				fmt.Fprintf(os.Stdout, "%s: command not found\n", message)
+			}
 		}
 	}
 }
