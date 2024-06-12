@@ -15,6 +15,7 @@ var builtins = map[string]bool{
 	"echo": true,
 	"exit": true,
 	"type": true,
+	"pwd": true,
 }
 
 // Function to check if a command is executable in any of the directories listed in PATH
@@ -54,6 +55,13 @@ func main() {
 			os.Exit(0)
 		case "echo":
 			fmt.Fprintln(os.Stdout, strings.Join(commands[1:], " "))
+		case "pwd":
+			dir, err := os.Getwd()
+			if err != nil {
+				fmt.Fprintln(os.Stderr, "pwd: error retrieving current directory")
+				continue
+			}
+			fmt.Fprintln(os.Stdout, dir)
 		case "type":
 			if len(commands) < 2 {
 				fmt.Fprintln(os.Stderr, "type: usage: type command")
