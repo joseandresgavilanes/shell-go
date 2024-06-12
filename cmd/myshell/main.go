@@ -71,7 +71,7 @@ func main() {
 			}
 			err := os.Chdir(commands[1])
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "cd: %s: no such file or directory\n", commands[1])
+				fmt.Fprintf(os.Stderr, "cd: %s: No such file or directory\n", commands[1])
 				continue
 			}
 		case "type":
