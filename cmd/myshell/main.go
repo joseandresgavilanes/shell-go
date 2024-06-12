@@ -69,7 +69,19 @@ func main() {
 				fmt.Fprintln(os.Stderr, "cd: usage: cd directory")
 				continue
 			}
-			err := os.Chdir(commands[1])
+
+
+			var dir string
+
+if len(commands[1]) == 1 && commands[1][0] == '~' {
+    dir = os.Getenv("HOME")
+} else if strings.HasPrefix(commands[1], "~/") {
+    dir = filepath.Join(os.Getenv("HOME"), strings.TrimPrefix(commands[1], "~/"))
+} else {
+    dir = commands[1]
+}
+			err := os.Chdir(dir)
+
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "cd: %s: No such file or directory\n", commands[1])
 				continue
