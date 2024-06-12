@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
@@ -13,6 +14,18 @@ var builtins = map[string]bool{
 	"echo": true,
 	"exit": true,
 	"type": true,
+}
+
+// Function to check if a command is executable in any of the directories listed in PATH
+func findExecutable(command string) (string, bool) {
+	paths := strings.Split(os.Getenv("PATH"), ":")
+	for _, dir := range paths {
+		fullPath := filepath.Join(dir, command)
+		if _, err := os.Stat(fullPath); err == nil {
+			return fullPath, true
+		}
+	}
+	return "", false
 }
 
 func main() {
@@ -48,6 +61,8 @@ func main() {
 			for _, cmd := range commands[1:] {
 				if builtins[cmd] {
 					fmt.Fprintf(os.Stdout, "%s is a shell builtin\n", cmd)
+				} else if path, found := findExecutable(cmd); found {
+					fmt.Fprintf(os.Stdout, "%s is %s\n", cmd, path)
 				} else {
 					fmt.Fprintf(os.Stdout, "%s: not found\n", cmd)
 				}
