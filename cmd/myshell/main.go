@@ -16,6 +16,8 @@ var builtins = map[string]bool{
 	"exit": true,
 	"type": true,
 	"pwd": true,
+	"cd": true,
+
 }
 
 // Function to check if a command is executable in any of the directories listed in PATH
@@ -62,6 +64,16 @@ func main() {
 				continue
 			}
 			fmt.Fprintln(os.Stdout, dir)
+		case "cd":
+			if len(commands) < 2 {
+				fmt.Fprintln(os.Stderr, "cd: usage: cd directory")
+				continue
+			}
+			err := os.Chdir(commands[1])
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "cd: %s: no such file or directory\n", commands[1])
+				continue
+			}
 		case "type":
 			if len(commands) < 2 {
 				fmt.Fprintln(os.Stderr, "type: usage: type command")
